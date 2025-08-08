@@ -1,0 +1,25 @@
+{
+  "name": "the-useless-button",
+  "version": "1.0.0",
+  "description": "A simple web page with a button that performs various useless actions.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server",
+    "build:css": "npx tailwindcss -i ./input.css -o ./style.css --watch"
+  },
+  "keywords": [
+    "html",
+    "tailwindcss",
+    "javascript",
+    "tonejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tone": "^14.7.77"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "live-server": "^1.2.2"
+  }
+}
