@@ -1,499 +1,152 @@
 <!DOCTYPE html>
-<html lang="en-US">
-	<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta charset="utf-8" />
-		<title>
-		</title>
-		<style>
-			body { font-family:'Times New Roman'; font-size:12pt }
-			p { margin:0pt }
-@media (max-width: 900px) { 
-img { 
-   max-width: 100%;
-   height: auto;
-}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Useless Button</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent scrollbars when button moves */
+        }
+        #theButton {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body id="pageBody" class="bg-slate-100 dark:bg-slate-900 transition-colors duration-500">
 
-.table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
+    <div class="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+        
+        <div class="absolute top-5 right-5 text-slate-500 dark:text-slate-400">
+            <p>Clicks: <span id="clickCounter" class="font-bold">0</span></p>
+        </div>
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        <div class="space-y-6">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white">The Useless Button</h1>
+            <p id="actionMessage" class="text-lg text-slate-600 dark:text-slate-300 min-h-[2.5em]">Click the button. See what happens. Or doesn't.</p>
+            
+            <div class="relative h-24 flex items-center justify-center">
+                 <button id="theButton" class="absolute bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                    Press Me
+                </button>
+            </div>
+        </div>
 
-td, th {
-    padding: 8px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-}	
+    </div>
 
+    <script>
+        // --- DOM Element References ---
+        const theButton = document.getElementById('theButton');
+        const actionMessage = document.getElementById('actionMessage');
+        const pageBody = document.getElementById('pageBody');
+        const clickCounter = document.getElementById('clickCounter');
 
-		</style>
-	</head>
-	<body>
-			<p>
-				&lt;!DOCTYPE html&gt;
-			</p>
-			<p>
-				&lt;html lang="en"&gt;
-			</p>
-			<p>
-				&lt;head&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;meta charset="UTF-8"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;title&gt;The Useless Button&lt;/title&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"&gt;&lt;/script&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;style&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; body {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; font-family: 'Inter', sans-serif;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; overflow: hidden; /* Prevent scrollbars when button moves */
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; }
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; #theButton {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; transition: all 0.3s ease-in-out;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; }
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;/style&gt;
-			</p>
-			<p>
-				&lt;/head&gt;
-			</p>
-			<p>
-				&lt;body id="pageBody" class="bg-slate-100 dark:bg-slate-900 transition-colors duration-500"&gt;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;div class="flex flex-col items-center justify-center min-h-screen p-4 text-center"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;div class="absolute top-5 right-5 text-slate-500 dark:text-slate-400"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;p&gt;Clicks: &lt;span id="clickCounter" class="font-bold"&gt;0&lt;/span&gt;&lt;/p&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;/div&gt;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;div class="space-y-6"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white"&gt;The Useless Button&lt;/h1&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;p id="actionMessage" class="text-lg text-slate-600 dark:text-slate-300 min-h-[2.5em]"&gt;Click the button. See what happens. Or doesn't.&lt;/p&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;div class="relative h-24 flex items-center justify-center"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;button id="theButton" class="absolute bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; Press Me
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;/button&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;/div&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &lt;/div&gt;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;/div&gt;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;script&gt;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // --- DOM Element References ---
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const theButton = document.getElementById('theButton');
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const actionMessage = document.getElementById('actionMessage');
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const pageBody = document.getElementById('pageBody');
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const clickCounter = document.getElementById('clickCounter');
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // --- State ---
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; let clicks = 0;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // --- Useless Data ---
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const uselessFacts = [
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "A group of flamingos is called a flamboyance.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "Banging your head against a wall for one hour burns 150 calories.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "A shrimp's heart is in its head.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "It is physically impossible for pigs to look up into the sky.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "The 'sixth sick sheik's sixth sheep's sick' is believed to be the toughest tongue twister in the English language.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "A crocodile cannot stick its tongue out.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "On average, a person will spend about 5 years of their life waiting in lines.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "The national animal of Scotland is the unicorn.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "A single cloud can weigh more than 1 million pounds.",
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "You are now manually breathing."
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; ];
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const buttonTexts = [
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; "Again!", "Do it.", "Why?", "Pointless", "More!", "Click.", "Don't Press", "Push", "Useless"
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; ];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const colors = [
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-slate-100 dark:bg-slate-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-red-100 dark:bg-red-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-yellow-100 dark:bg-yellow-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-green-100 dark:bg-green-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-blue-100 dark:bg-blue-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-indigo-100 dark:bg-indigo-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-purple-100 dark:bg-purple-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 'bg-pink-100 dark:bg-pink-900',
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; ];
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // --- Useless Actions ---
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const uselessActions = [
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 1. Change background color
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const randomColorClass = colors[Math.floor(Math.random() * colors.length)];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // Reset all possible color classes before adding the new one
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; pageBody.className = '';
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; colors.forEach(c =&gt; pageBody.classList.remove(...c.split(' ')));
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; pageBody.classList.add(...randomColorClass.split(' '), 'transition-colors', 'duration-500');
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "Enjoy this new, exciting color.";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 2. Show a useless fact
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const fact = uselessFacts[Math.floor(Math.random() * uselessFacts.length)];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = fact;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 3. Play a random beep
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const synth = new Tone.Synth().toDestination();
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const notes = ["C4", "E4", "G4", "A4", "C5"];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const randomNote = notes[Math.floor(Math.random() * notes.length)];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // Use start() to ensure audio context is running
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; Tone.start().then(() =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; synth.triggerAttackRelease(randomNote, "8n");
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; });
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "Wasn't that a lovely sound?";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 4. Move the button randomly
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const x = Math.random() * (window.innerWidth - theButton.offsetWidth - 100) + 50;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const y = Math.random() * (window.innerHeight - theButton.offsetHeight - 200) + 100; // avoid top/bottom edges
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; 
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // We move the parent container to keep the layout clean
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const buttonContainer = theButton.parentElement;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; buttonContainer.style.position = 'absolute';
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; buttonContainer.style.left = `${x}px`;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; buttonContainer.style.top = `${y}px`;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "Catch me if you can!";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 5. Change the button's text
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const text = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; theButton.textContent = text;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "The button has evolved.";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 6. Do absolutely nothing
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "Did something happen? Maybe. Maybe not.";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; },
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // 7. Briefly shrink the button
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; theButton.style.transform = 'scale(0.5)';
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; setTimeout(() =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; theButton.style.transform = 'scale(1)';
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; }, 200);
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; actionMessage.textContent = "Woah, it got small for a second.";
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; }
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; ];
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // --- Event Listener ---
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; theButton.addEventListener('click', () =&gt; {
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // Increment click counter
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; clicks++;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; clickCounter.textContent = clicks;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; // Pick a random action and execute it
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; const randomIndex = Math.floor(Math.random() * uselessActions.length);
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; uselessActions[randomIndex]();
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; });
-			</p>
-			<p>
-				&#xa0;
-			</p>
-			<p>
-				&#xa0;&#xa0;&#xa0; &lt;/script&gt;
-			</p>
-			<p>
-				&lt;/body&gt;
-			</p>
-			<p>
-				&lt;/html&gt;
-			</p>
-			<p>
-				&#xa0;
-			</p>
-	<p style="bottom: 10px; right: 10px; position: absolute;"><a href="https://wordtohtml.net" target="_blank" style="font-size:11px; color: #d0d0d0">Converted to HTML with WordToHTML.net</a></p>
+        // --- State ---
+        let clicks = 0;
+
+        // --- Useless Data ---
+        const uselessFacts = [
+            "A group of flamingos is called a flamboyance.",
+            "Banging your head against a wall for one hour burns 150 calories.",
+            "A shrimp's heart is in its head.",
+            "It is physically impossible for pigs to look up into the sky.",
+            "The 'sixth sick sheik's sixth sheep's sick' is believed to be the toughest tongue twister in the English language.",
+            "A crocodile cannot stick its tongue out.",
+            "On average, a person will spend about 5 years of their life waiting in lines.",
+            "The national animal of Scotland is the unicorn.",
+            "A single cloud can weigh more than 1 million pounds.",
+            "You are now manually breathing."
+        ];
+
+        const buttonTexts = [
+            "Again!", "Do it.", "Why?", "Pointless", "More!", "Click.", "Don't Press", "Push", "Useless"
+        ];
+        
+        const colors = [
+            'bg-slate-100 dark:bg-slate-900',
+            'bg-red-100 dark:bg-red-900',
+            'bg-yellow-100 dark:bg-yellow-900',
+            'bg-green-100 dark:bg-green-900',
+            'bg-blue-100 dark:bg-blue-900',
+            'bg-indigo-100 dark:bg-indigo-900',
+            'bg-purple-100 dark:bg-purple-900',
+            'bg-pink-100 dark:bg-pink-900',
+        ];
+
+        // --- Useless Actions ---
+        const uselessActions = [
+            // 1. Change background color
+            () => {
+                const randomColorClass = colors[Math.floor(Math.random() * colors.length)];
+                // Reset all possible color classes before adding the new one
+                pageBody.className = '';
+                colors.forEach(c => pageBody.classList.remove(...c.split(' ')));
+                pageBody.classList.add(...randomColorClass.split(' '), 'transition-colors', 'duration-500');
+                actionMessage.textContent = "Enjoy this new, exciting color.";
+            },
+            // 2. Show a useless fact
+            () => {
+                const fact = uselessFacts[Math.floor(Math.random() * uselessFacts.length)];
+                actionMessage.textContent = fact;
+            },
+            // 3. Play a random beep
+            () => {
+                const synth = new Tone.Synth().toDestination();
+                const notes = ["C4", "E4", "G4", "A4", "C5"];
+                const randomNote = notes[Math.floor(Math.random() * notes.length)];
+                // Use start() to ensure audio context is running
+                Tone.start().then(() => {
+                     synth.triggerAttackRelease(randomNote, "8n");
+                });
+                actionMessage.textContent = "Wasn't that a lovely sound?";
+            },
+            // 4. Move the button randomly
+            () => {
+                const x = Math.random() * (window.innerWidth - theButton.offsetWidth - 100) + 50;
+                const y = Math.random() * (window.innerHeight - theButton.offsetHeight - 200) + 100; // avoid top/bottom edges
+                
+                // We move the parent container to keep the layout clean
+                const buttonContainer = theButton.parentElement;
+                buttonContainer.style.position = 'absolute';
+                buttonContainer.style.left = `${x}px`;
+                buttonContainer.style.top = `${y}px`;
+                actionMessage.textContent = "Catch me if you can!";
+            },
+            // 5. Change the button's text
+            () => {
+                const text = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
+                theButton.textContent = text;
+                actionMessage.textContent = "The button has evolved.";
+            },
+            // 6. Do absolutely nothing
+            () => {
+                actionMessage.textContent = "Did something happen? Maybe. Maybe not.";
+            },
+            // 7. Briefly shrink the button
+            () => {
+                theButton.style.transform = 'scale(0.5)';
+                setTimeout(() => {
+                    theButton.style.transform = 'scale(1)';
+                }, 200);
+                actionMessage.textContent = "Woah, it got small for a second.";
+            }
+        ];
+
+        // --- Event Listener ---
+        theButton.addEventListener('click', () => {
+            // Increment click counter
+            clicks++;
+            clickCounter.textContent = clicks;
+
+            // Pick a random action and execute it
+            const randomIndex = Math.floor(Math.random() * uselessActions.length);
+            uselessActions[randomIndex]();
+        });
+
+    </script>
 </body>
 </html>
